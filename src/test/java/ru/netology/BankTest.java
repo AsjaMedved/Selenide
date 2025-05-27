@@ -35,6 +35,7 @@ public class BankTest {
         $("[data-test-id='agreement']").click();
         $$("button").findBy(text("Забронировать")).click();
         $("[data-test-id='notification'] .notification__title").shouldHave(text("Успешно"), Duration.ofSeconds(15)).shouldBe(visible);
+        $("[data-test-id='notification'] .notification__content").shouldHave(text("Встреча успешно забронирована на " + planingDate), Duration.ofSeconds(15)).shouldBe(visible);
     }
 
     @Test
