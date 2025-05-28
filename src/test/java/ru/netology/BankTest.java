@@ -183,6 +183,29 @@ public class BankTest {
         $$("button").findBy(text("Забронировать")).click();
         $$("[data-test-id='phone'].input_invalid .input__sub").findBy(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.")).shouldBe(visible);
     }
+
+
+    @Test
+    void dateSelection() { // выбор даты
+        String planingDate = generateDate(3, "dd.MM.yyyy");
+        Selenide.open("http://localhost:9999/");
+
+        $("[data-test-id='city'] input").shouldBe(visible, enabled).setValue("Ниж");
+        $$(".menu-item").findBy(text("Нижний Новгород")).shouldBe(visible).click();
+
+        $("button").click();
+        $("[data-step='1']").click();
+        $("[data-step='12']").click();
+        $$(".calendar__layout").findBy(text("10")).click();
+
+
+        $("[data-test-id='name'] input").setValue("Иванов Иван Иванович");
+        $("[data-test-id='phone'] input").setValue("+79999999999");
+        $("[data-test-id='agreement']").click();
+        $$("button").findBy(text("Забронировать")).click();
+        $("[data-test-id='notification'] .notification__title").shouldHave(text("Успешно"), Duration.ofSeconds(15)).shouldBe(visible);
+        $("[data-test-id='notification'] .notification__content").shouldHave(text("Встреча успешно забронирована на"), Duration.ofSeconds(15)).shouldBe(visible);
+    }
 }
 
 
